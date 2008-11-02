@@ -18,13 +18,13 @@ module Seasonal
       if end_time.nil?
         if start_time.nil?
           end_time = '23:59:59'
-	else
-	  if end_date.nil?
-	    end_time = start_time
-	  else
-	    end_time = '23:59:59'
-	  end
-	end
+        else
+          if end_date.nil?
+            end_time = start_time
+          else
+            end_time = '23:59:59'
+          end
+        end
       end
 
       start_time = '00:00:00' if start_time.nil?
