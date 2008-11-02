@@ -1,5 +1,5 @@
-A way to create date and time events and be yielded the events that are
-currently going on in a block.
+A way to create a calendar of date and time events and be yielded events that
+are currently happening.
 
 Example:
 
