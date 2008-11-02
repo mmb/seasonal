@@ -1,0 +1,12 @@
+A way to create date and time events and be yielded the events that are
+currently going on in a block.
+
+Each event has an attached payload which can be simply a string or any object.
+
+Uses the flexible time parsing of Time.parse to be easy to use and the
+timezone and DST handling of tzinfo.
+
+Originally conceived to be used for changing a web site's color scheme and
+messages based on the holidays and seasons.
+
+Inspired by World of Warcraft seasonal events.
