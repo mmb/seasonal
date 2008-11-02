@@ -1,7 +1,22 @@
 A way to create date and time events and be yielded the events that are
 currently going on in a block.
 
-Each event has an attached payload which can be simply a string or any object.
+Example:
+
+require 'seasonal'
+
+bgs = Seasonal::Calendar.new
+
+bgs.push(Seasonal::Event.new(
+  'orange', 'America/New_York', 'sep 21', nil, 'dec 20'))
+
+bg_color = 'white'
+
+bgs.going_on { |e| bg_color = e.payload }
+
+puts bg_color
+
+Each event has an attached payload which can be any object.
 
 Uses the flexible time parsing of Time.parse to be easy to use and the
 timezone and DST handling of tzinfo.
