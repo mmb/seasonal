@@ -1,27 +1,34 @@
-A way to create a calendar of date and time events and be yielded events that
-are currently happening.
+Create a calendar of date and time events and execute code based on which
+events are currently happening.
 
-Example:
+Example (print holiday greetings):
 
 require 'seasonal'
 
-bgs = Seasonal::Calendar.new
+holidays = Seasonal::Calendar.new
 
-bgs.push(Seasonal::Event.new(
-  'orange', 'America/New_York', 'sep 21', nil, 'dec 20'))
+holidays.push(Seasonal::Event.new(
+  'Merry Christmas', 'America/New_York', 'dec 25'))
+holidays.push(Seasonal::Event.new(
+  "April Fool's Day", 'America/New_York', 'apr 1'))
 
-bg_color = 'white'
+holidays.going_on { |e| puts e.payload }
 
-bgs.going_on { |e| bg_color = e.payload }
+Example (make text red between 9:00 and 10:00 am):
 
-puts bg_color
+require 'seasonal'
+
+colors = Seasonal::Calendar.new
+
+colors.push(Seasonal::Event.new(
+  '#ff0000', 'America/New_York', nil, '9:00am', nil, '10:00am'))
+
+color = '#000000'
+colors.going_on { |e| color = e.payload }
+
+puts "<p style=\"background-color : #{color}\">test</p>"
 
 Each event has an attached payload which can be any object.
 
 Uses the flexible time parsing of Time.parse to be easy to use and the
 timezone and DST handling of tzinfo.
-
-Originally conceived to be used for changing a web site's color scheme and
-messages based on the holidays and seasons.
-
-Inspired by World of Warcraft seasonal events.
