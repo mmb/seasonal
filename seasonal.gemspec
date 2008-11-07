@@ -9,12 +9,12 @@ Gem::Specification.new do |s|
   s.has_rdoc = false
   s.authors  = ["Matthew M. Boedicker"]
   s.files    = [
-	"lib/seasonal.rb",
-	"README",
-	"seasonal.gemspec",
-	]
+    "lib/seasonal.rb",
+    "README",
+    "seasonal.gemspec",
+    ]
   s.test_files = [
-	"test/seasonal_test.rb",
-	]
+    "test/seasonal_test.rb",
+    ]
   s.add_dependency("tzinfo", ["> 0.0.0"])
 end
