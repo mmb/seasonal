@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name     = "seasonal"
-  s.version  = "0.0.1"
+  s.version  = "0.0.2"
   s.date     = "2008-11-07"
   s.summary  = "create logic based on defined date and time events"
   s.email    = "matthewm@boedicker.org"
