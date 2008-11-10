@@ -3,6 +3,8 @@ events are currently happening.
 
 Example (print holiday greetings):
 
+<pre>
+<code>
 require 'seasonal'
 
 holidays = Seasonal::Calendar.new
@@ -13,9 +15,13 @@ holidays.push(Seasonal::Event.new("April Fool's Day", 'America/New_York',
   :on => 'apr 1'))
 
 holidays.going_on { |e| puts e.payload }
+</code>
+</pre>
 
 Example (make text red between 9:00 and 10:00 am):
 
+<pre>
+<code>
 require 'seasonal'
 
 colors = Seasonal::Calendar.new
@@ -23,12 +29,15 @@ colors = Seasonal::Calendar.new
 colors.push(Seasonal::Event.new('#ff0000', 'America/New_York',
   :start => '9:00am', :end => '10:00am'))
 
-color = (colors.going_on + ['#000000']).first
-
+color = colors.going_on(:or_if_none => '#000000')
 puts "<p style=\"background-color : #{color}\">test</p>"
+</code>
+</pre>
 
 Example (sale ends Jul 10):
 
+<pre>
+<code>
 require 'seasonal'
 
 sales = Seasonal::Calendar.new
@@ -37,6 +46,8 @@ sales.push(Seasonal::Event.new('Everything on sale', 'America/New_York',
   :end => 'jul 10 2009'))
 
 sales.going_on { |e| puts e.payload }
+</code>
+</pre>
 
 Each event has an attached payload which can be any object.
 
