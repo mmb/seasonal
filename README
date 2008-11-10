@@ -7,10 +7,10 @@ require 'seasonal'
 
 holidays = Seasonal::Calendar.new
 
-holidays.push(Seasonal::Event.new(
-  'Merry Christmas', 'America/New_York', 'dec 25'))
-holidays.push(Seasonal::Event.new(
-  "April Fool's Day", 'America/New_York', 'apr 1'))
+holidays.push(Seasonal::Event.new('Merry Christmas', 'America/New_York',
+  :start => 'dec 25 00:00', :end => 'dec 25 23:59:59'))
+holidays.push(Seasonal::Event.new("April Fool's Day", 'America/New_York',
+  :start => 'apr 1 00:00', :end => 'apr 1 23:59:59'))
 
 holidays.going_on { |e| puts e.payload }
 
@@ -20,8 +20,8 @@ require 'seasonal'
 
 colors = Seasonal::Calendar.new
 
-colors.push(Seasonal::Event.new(
-  '#ff0000', 'America/New_York', nil, '9:00am', nil, '10:00am'))
+colors.push(Seasonal::Event.new('#ff0000', 'America/New_York',
+  :start => '9:00am', :end => '10:00am'))
 
 color = '#000000'
 colors.going_on { |e| color = e.payload }
