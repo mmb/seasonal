@@ -14,8 +14,13 @@ module Seasonal
     def initialize(payload, zone, options={})
       @payload = payload
       @zone = zone
-      @start = options[:start]
-      @ennd = options[:end]
+      if options[:on]
+        @start = "#{options[:on]} 00:00:00"
+        @ennd = "#{options[:on]} 23:59:59"
+      else
+        @start = options[:start]
+        @ennd = options[:end]
+      end
     end
 
     def start_utc
@@ -55,7 +60,11 @@ module Seasonal
   class Calendar < Array
 
     def going_on(test_time=Time.now)
-      each { |event| yield event if event.going_on?(test_time) }
+      if block_given?
+        each { |event| yield event if event.going_on?(test_time) }
+      else
+        reject { |event| !event.going_on?(test_time) }
+      end
     end
 
   end
