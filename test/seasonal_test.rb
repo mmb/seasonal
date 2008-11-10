@@ -7,19 +7,20 @@ require 'test/unit'
 class SeasonalTest < Test::Unit::TestCase
 
   def test_start_date
-    e = Seasonal::Event.new(nil, 'America/New_York', 'jan 1')
+    e = Seasonal::Event.new(nil, 'America/New_York', :start_date => 'jan 1')
 
     assert_equal(false,
       e.going_on?(Time.utc(Time.now.utc.year - 1, 12, 30, 23, 59, 59)))
 
     assert(e.going_on?(Time.utc(Time.now.utc.year, 1, 1, 17, 0, 0)))
 
-    assert_equal(false, e.going_on?(Time.utc(Time.now.utc.year, 1, 2, 5, 0, 0)))
+    assert_equal(false,
+      e.going_on?(Time.utc(Time.now.utc.year, 1, 2, 5, 0, 0)))
   end
 
   def test_start_date_end_time
-    e = Seasonal::Event.new(nil,
-      'America/New_York', 'feb 22', nil, nil, '5:00pm')
+    e = Seasonal::Event.new(nil, 'America/New_York', :start_date => 'feb 22',
+      :end_time => '5:00pm')
 
     assert_equal(false,
       e.going_on?(Time.utc(Time.now.utc.year, 2, 22, 4, 59, 59)))
@@ -31,8 +32,8 @@ class SeasonalTest < Test::Unit::TestCase
   end
 
   def test_start_date_end_date
-    e = Seasonal::Event.new(nil,
-      'America/New_York', 'mar 3 2003', nil, 'mar 5 2003')
+    e = Seasonal::Event.new(nil, 'America/New_York',
+      :start_date => 'mar 3 2003', :end_date => 'mar 5 2003')
 
     assert_equal(false, e.going_on?(Time.utc(2003, 3, 3, 4, 59, 59)))
 
@@ -42,8 +43,8 @@ class SeasonalTest < Test::Unit::TestCase
   end
 
   def test_start_date_end_date_end_time
-    e = Seasonal::Event.new(nil,
-      'America/New_York', 'apr 20', nil, 'may 1', '00:00')
+    e = Seasonal::Event.new(nil, 'America/New_York',
+      :start_date => 'apr 20', :end_date => 'may 1', :end_time => '00:00')
 
     assert_equal(false,
       e.going_on?(Time.utc(Time.now.utc.year, 4, 20, 3, 59, 59)))
@@ -54,7 +55,8 @@ class SeasonalTest < Test::Unit::TestCase
   end
 
   def test_start_date_start_time
-    e = Seasonal::Event.new(nil, 'America/New_York', 'may 10', '10:00am')
+    e = Seasonal::Event.new(nil, 'America/New_York', :start_date => 'may 10',
+      :start_time => '10:00am')
 
     assert_equal(false,
       e.going_on?(Time.utc(Time.now.utc.year, 5, 10, 13, 59, 59)))
@@ -66,8 +68,8 @@ class SeasonalTest < Test::Unit::TestCase
   end
 
   def test_start_date_start_time_end_time
-    e = Seasonal::Event.new(nil,
-      'America/New_York', 'june 22', '10:00am', nil, '10:30am')
+    e = Seasonal::Event.new(nil, 'America/New_York', :start_date => 'june 22',
+      :start_time => '10:00am', :end_time => '10:30am')
 
     assert_equal(false,
       e.going_on?(Time.utc(Time.now.utc.year, 6, 22, 13, 59, 59)))
@@ -79,8 +81,8 @@ class SeasonalTest < Test::Unit::TestCase
   end
 
   def test_start_date_start_time_end_date
-    e = Seasonal::Event.new(nil,
-      'America/New_York', 'july 4', '11:00pm', 'jul 5')
+    e = Seasonal::Event.new(nil, 'America/New_York', :start_date => 'july 4',
+      :start_time => '11:00pm', :end_date => 'jul 5')
 
     assert_equal(false,
       e.going_on?(Time.utc(Time.now.utc.year, 7, 5, 2, 59, 59)))
@@ -91,8 +93,8 @@ class SeasonalTest < Test::Unit::TestCase
   end
 
   def test_start_date_start_time_end_date_end_time
-    e = Seasonal::Event.new(nil,
-      'America/New_York', 'aug 19', '1:00pm', 'aug 21', '2:00pm')
+    e = Seasonal::Event.new(nil, 'America/New_York', :start_date => 'aug 19',
+      :start_time => '1:00pm', :end_date => 'aug 21', :end_time => '2:00pm')
 
     assert_equal(false,
       e.going_on?(Time.utc(Time.now.utc.year, 8, 19, 16, 59, 59)))

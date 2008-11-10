@@ -13,30 +13,26 @@ module Seasonal
     attr_accessor :end_date
     attr_accessor :end_time
 
-    def initialize(payload, zone, start_date, start_time=nil, end_date=nil,
-      end_time=nil)
-      if end_time.nil?
-        if start_time.nil?
-          end_time = '23:59:59'
-        else
-          if end_date.nil?
-            end_time = start_time
-          else
-            end_time = '23:59:59'
-          end
-        end
-      end
-
-      start_time = '00:00:00' if start_time.nil?
-
-      end_date = start_date if end_date.nil?
-
+    def initialize(payload, zone, options={})
       @payload = payload
       @zone = zone
-      @start_date = start_date
-      @end_date = end_date
-      @start_time = start_time
-      @end_time = end_time
+      @start_date = options[:start_date]
+      @start_time = options[:start_time] || '00:00:00'
+      @end_date = options[:end_date] || options[:start_date]
+
+      if options[:end_time].nil?
+        if options[:start_time].nil?
+          @end_time = '23:59:59'
+        else
+          if options[:end_date].nil?
+            @end_time = options[:start_time]
+          else
+            @end_time = '23:59:59'
+          end
+        end
+      else
+        @end_time = options[:end_time]
+      end
     end
 
     def start
