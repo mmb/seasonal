@@ -59,11 +59,12 @@ module Seasonal
 
   class Calendar < Array
 
-    def going_on(test_time=Time.now, options={})
+    def going_on(options={})
+      { :at => Time.now }.merge(options)
       if block_given?
-        each { |event| yield event if event.going_on?(test_time) }
+        each { |event| yield event if event.going_on?(options[:at]) }
       else
-        result = reject { |event| !event.going_on?(test_time) }
+        result = reject { |event| !event.going_on?(options[:at]) }
         if result.empty? and !options[:or_if_none].nil?
           result.push(options[:or_if_none])
         else
