@@ -28,6 +28,17 @@ colors.going_on { |e| color = e.payload }
 
 puts "<p style=\"background-color : #{color}\">test</p>"
 
+Example (sale ends Jul 10):
+
+require 'seasonal'
+
+sales = Seasonal::Calendar.new
+
+sales.push(Seasonal::Event.new('Everything on sale', 'America/New_York',
+  :end => 'jul 10 2009'))
+
+sales.going_on { |e| puts e.payload }
+
 Each event has an attached payload which can be any object.
 
 Uses the flexible time parsing of Time.parse to be easy to use and the
