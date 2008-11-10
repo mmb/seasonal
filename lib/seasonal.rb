@@ -60,13 +60,21 @@ module Seasonal
   class Calendar < Array
 
     def going_on(options={})
-      { :at => Time.now }.merge(options)
+      options = { :at => Time.now, :payloads => true }.merge(options)
       if block_given?
-        each { |event| yield event if event.going_on?(options[:at]) }
+        if options[:payloads]
+          each { |event| yield event.payload if event.going_on?(options[:at]) }
+        else
+          each { |event| yield event if event.going_on?(options[:at]) }
+        end
       else
         result = reject { |event| !event.going_on?(options[:at]) }
-        if result.empty? and !options[:or_if_none].nil?
-          result.push(options[:or_if_none])
+        if options[:payloads]
+          if result.empty? and !options[:or_if_none].nil?
+            result.push(options[:or_if_none])
+          else
+            result.collect { |e| e.payload }
+          end
         else
           result
         end

@@ -82,6 +82,20 @@ class SeasonalTest < Test::Unit::TestCase
       :start => 'apr 11', :end => 'may 5'))
     result = false
     calendar.going_on(:at => Time.utc(Time.now.utc.year, 4, 16, 1, 2, 3)) do |e|
+      assert(payload, e)
+      result = true
+    end
+    assert(result)
+  end
+
+  def test_calendar_going_on_block_whole_event
+    calendar = Seasonal::Calendar.new
+    payload = 'test'
+    calendar.push(Seasonal::Event.new(payload, 'America/New_York',
+      :start => 'apr 11', :end => 'may 5'))
+    result = false
+    calendar.going_on(:at => Time.utc(Time.now.utc.year, 4, 16, 1, 2, 3),
+      :payloads => false) do |e|
       assert(payload, e.payload)
       result = true
     end
@@ -103,7 +117,20 @@ class SeasonalTest < Test::Unit::TestCase
     calendar.push(Seasonal::Event.new(payload, 'America/New_York',
       :on => on.strftime('%b %d')))
     assert_equal(1, calendar.going_on(:at => on).size)
-    assert_equal(payload, calendar.going_on(:at => on).first.payload)
+    assert_equal(payload, calendar.going_on(:at => on).first)
+  end
+
+  def test_calendar_whole_event
+    calendar = Seasonal::Calendar.new
+    payload = 'test'
+    on = Time.now
+    calendar.push(Seasonal::Event.new(payload, 'America/New_York',
+      :on => on.strftime('%b %d')))
+    assert_equal(1, calendar.going_on(:at => on, :payloads => false).size)
+    assert_kind_of(Seasonal::Event, calendar.going_on(:at => on,
+      :payloads => false).first)
+    assert_equal(payload, calendar.going_on(:at => on,
+      :payloads => false).first.payload)
   end
 
 end
