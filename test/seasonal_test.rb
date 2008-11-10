@@ -43,6 +43,7 @@ class SeasonalTest < Test::Unit::TestCase
     e = Seasonal::Event.new(nil, 'America/New_York', :start => ss, :end => es)
 
     assert_equal(false, e.going_on?(start - 1))
+
     if start <= ennd
       assert(e.going_on?(start))
       assert(e.going_on?(ennd))
