@@ -14,7 +14,7 @@ holidays.push(Seasonal::Event.new('Merry Christmas', 'America/New_York',
 holidays.push(Seasonal::Event.new("April Fool's Day", 'America/New_York',
   :on => 'apr 1'))
 
-holidays.going_on { |e| puts e.payload }
+holidays.going_on { |e| puts e }
 </code>
 </pre>
 
@@ -45,7 +45,7 @@ sales = Seasonal::Calendar.new
 sales.push(Seasonal::Event.new('Everything on sale', 'America/New_York',
   :end => 'jul 10 2009'))
 
-sales.going_on { |e| puts e.payload }
+sales.going_on { |e| puts e }
 </code>
 </pre>
 
