@@ -10,7 +10,7 @@ Gem::Specification.new do |s|
   s.authors  = ["Matthew M. Boedicker"]
   s.files    = [
     "lib/seasonal.rb",
-    "README",
+    "README.textile",
     "seasonal.gemspec",
     ]
   s.test_files = [
