@@ -1,5 +1,11 @@
-Create a calendar of date and time events and execute code based on which
-events are currently happening.
+Create a calendar of date and time events, attach arbitrary objects to them
+and ask which objects are current at any point in time.
+
+Uses the flexible time parsing of Time.parse to be easy to use and the
+timezone and DST handling of tzinfo.
+
+Originally conceived for making web sites look and behave differently depending
+on the time of day or year.
 
 Example (print holiday greetings):
 
@@ -48,8 +54,3 @@ sales.push(Seasonal::Event.new('Everything on sale', 'America/New_York',
 sales.going_on { |e| puts e }
 </code>
 </pre>
-
-Each event has an attached payload which can be any object.
-
-Uses the flexible time parsing of Time.parse to be easy to use and the
-timezone and DST handling of tzinfo.
