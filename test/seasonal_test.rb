@@ -48,4 +48,40 @@ class SeasonalTest < Test::Unit::TestCase
     assert_equal(false, e.going_on?(ennd + 1))
   end
 
+  def test_calendar_going_on
+    calendar = Seasonal::Calendar.new
+    calendar.push(Seasonal::Event.new(nil, 'America/New_York',
+      :start => 'June 22, 1978 10:00pm', :end => 'June 28, 1978 10:00am'))
+    assert_equal(1, calendar.going_on(Time.utc(1978, 6, 23, 2, 0, 0)).size)
+  end
+
+  def test_calendar_going_on_block
+    calendar = Seasonal::Calendar.new
+    payload = 'test'
+    calendar.push(Seasonal::Event.new(payload, 'America/New_York',
+      :start => 'apr 11', :end => 'may 5'))
+    result = false
+    calendar.going_on(Time.utc(Time.now.utc.year, 4, 16, 1, 2, 3)) do |e|
+      assert(payload, e.payload)
+      result = true
+    end
+    assert(result)
+  end
+
+  def test_calendar_on
+    calendar = Seasonal::Calendar.new
+    calendar.push(Seasonal::Event.new(nil, 'America/New_York',
+      :on => Time.now.strftime('%b %d')))
+    assert_equal(1, calendar.going_on(Time.now).size)
+  end
+
+  def test_calendar_payload
+    calendar = Seasonal::Calendar.new
+    payload = 'test'
+    calendar.push(Seasonal::Event.new(payload, 'America/New_York',
+      :on => Time.now.strftime('%b %d')))
+    assert_equal(1, calendar.going_on(Time.now).size)
+    assert_equal(payload, calendar.going_on.first.payload)
+  end
+
 end
