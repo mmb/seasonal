@@ -33,7 +33,7 @@ module Seasonal
     end
 
     def going_on?(test_time=Time.now)
-      puts "#{start_utc} - #{end_utc}"
+      # puts "#{start_utc} - #{end_utc}"
       if start_utc.nil?
         if end_utc.nil?
           result = false
