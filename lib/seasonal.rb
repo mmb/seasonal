@@ -30,10 +30,22 @@ module Seasonal
       end
     end
 
+    def has_year(s)
+      p = Time.parse(s)
+      p.eql?(Time.parse(s + ' ' + (p.year + 1).to_s))
+    end
+
     def end_utc
       unless ennd.nil?
         tz = TZInfo::Timezone.get(zone)
-        tz.local_to_utc(Time.parse(ennd))
+        result = tz.local_to_utc(Time.parse(ennd))
+        # if no year is given for end and it falls before start, assume they
+        # meant next year
+        if !start.nil? and (result < start_utc) and !has_year(ennd)
+          result = Time.utc(result.year + 1, result.month, result.day,
+            result.hour, result.min, result.sec, result.usec)
+        end
+        result
       end
     end
 
