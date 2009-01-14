@@ -1,2 +1,3 @@
 - some tests fail based on what time zone you are in
 - need to handle yearly recurring periods specified with no years
+- add rdoc
