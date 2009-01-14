@@ -1,7 +1,7 @@
 Gem::Specification.new do |s|
   s.name     = "seasonal"
-  s.version  = "0.0.4"
-  s.date     = "2008-11-10"
+  s.version  = "0.0.6"
+  s.date     = "2009-01-14"
   s.summary  = "create logic based on defined date and time events"
   s.email    = "matthewm@boedicker.org"
   s.homepage = "http://github.com/mmb/seasonal"
