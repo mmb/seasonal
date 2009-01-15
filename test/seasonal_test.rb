@@ -6,6 +6,11 @@ require 'test/unit'
 
 class SeasonalTest < Test::Unit::TestCase
 
+  def setup
+    @zone = 'America/New_York'
+    @tz = TZInfo::Timezone.get(@zone)
+  end
+
   def test_event_none
     e = Seasonal::Event.new(nil, 'America/New_York')
 
@@ -14,9 +19,9 @@ class SeasonalTest < Test::Unit::TestCase
 
   def test_event_start
     ss = 'jan 2'
-    start = Time.parse(ss).utc
+    start = @tz.local_to_utc(Time.parse(ss))
 
-    e = Seasonal::Event.new(nil, 'America/New_York', :start => ss)
+    e = Seasonal::Event.new(nil, @zone, :start => ss)
 
     assert_equal(false, e.going_on?(start - 1))
     assert(e.going_on?(start))
@@ -25,9 +30,9 @@ class SeasonalTest < Test::Unit::TestCase
 
   def test_event_end
     es = 'mar 17'
-    ennd = Time.parse(es).utc
+    ennd = @tz.local_to_utc(Time.parse(es))
 
-    e = Seasonal::Event.new(nil, 'America/New_York', :end => es)
+    e = Seasonal::Event.new(nil, @zone, :end => es)
 
     assert(e.going_on?(ennd - 1))
     assert(e.going_on?(ennd))
@@ -37,10 +42,10 @@ class SeasonalTest < Test::Unit::TestCase
   def test_event_start_end
     ss = 'aug 29'
     es = 'sep 1'
-    start = Time.parse(ss).utc
-    ennd = Time.parse(es).utc
+    start = @tz.local_to_utc(Time.parse(ss))
+    ennd = @tz.local_to_utc(Time.parse(es))
 
-    e = Seasonal::Event.new(nil, 'America/New_York', :start => ss, :end => es)
+    e = Seasonal::Event.new(nil, @zone, :start => ss, :end => es)
 
     assert_equal(false, e.going_on?(start - 1))
     assert(e.going_on?(start))
