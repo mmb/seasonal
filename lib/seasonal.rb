@@ -37,6 +37,36 @@ module Seasonal
       end
     end
 
+    def has_year(s)
+      p = Time.parse(s)
+      p.eql?(Time.parse(s + ' ' + (p.year + 1).to_s))
+    end
+
+    def is_yearly_range
+      !start.nil? and !has_year(start) and !ennd.nil? and !has_year(ennd)
+    end
+
+    def change_year(time, new_year)
+      Time.utc(new_year, time.utc.month, time.utc.day, time.utc.hour,
+        time.utc.min, time.utc.sec, time.utc.usec)
+    end
+
+    def going_on_yearly_range(test_time)
+      if is_yearly_range
+        start_shifted = change_year(start_utc, test_time.utc.year)
+        end_shifted = change_year(end_utc, test_time.utc.year)
+        if (end_utc < start_utc)
+          start_shifted_prev = change_year(start_shifted,
+            start_shifted.year - 1)
+          end_shifted_next = change_year(end_shifted, end_shifted.year + 1)
+          ((start_shifted_prev <= test_time and test_time <= end_shifted) or
+            (start_shifted <= test_time and test_time <= end_shifted_next))
+        else
+          (start_shifted <= test_time and test_time <= end_shifted)
+        end
+      end
+    end
+
     def going_on?(test_time=Time.now)
       # puts "#{start_utc} - #{end_utc}"
       if start_utc.nil?
@@ -49,7 +79,10 @@ module Seasonal
         if end_utc.nil?
           result = test_time >= start_utc
         else
-          result = (test_time >= start_utc and test_time <= end_utc)
+          result = going_on_yearly_range(test_time)
+          if result.nil?
+            result = (start_utc <= test_time and test_time <= end_utc)
+          end
         end
       end
       result

@@ -53,6 +53,32 @@ class SeasonalTest < Test::Unit::TestCase
     assert_equal(false, e.going_on?(ennd + 1))
   end
 
+  def test_event_start_end_crosses_year_boundary
+    ss = 'dec 31'
+    es = 'jan 1'
+    start = @tz.local_to_utc(Time.parse(ss))
+    ennd = @tz.local_to_utc(Time.parse(es))
+
+    e = Seasonal::Event.new(nil, @zone, :start => ss, :end => es)
+
+    assert_equal(false, e.going_on?(start - 1))
+    assert(e.going_on?(start))
+    assert(e.going_on?(ennd))
+    assert_equal(false, e.going_on?(ennd + 1))
+  end
+
+  def test_event_start_end_crosses_year_boundary_other_year
+    e = Seasonal::Event.new(nil, @zone, :start => 'nov 6', :end => 'feb 28')
+
+    assert(!e.going_on?(Time.parse('10/15/1978')))
+    assert(e.going_on?(Time.parse('12/25/1979')))
+    assert(!e.going_on?(Time.parse('5/14/1980')))
+
+    assert(!e.going_on?(Time.parse('8/1/2012')))
+    assert(e.going_on?(Time.parse('11/26/2015')))
+    assert(!e.going_on?(Time.parse('4/1/2020')))
+  end
+
   def test_calendar_going_on
     calendar = Seasonal::Calendar.new
     calendar.push(Seasonal::Event.new(nil, 'America/New_York',
