@@ -14,7 +14,7 @@ class SeasonalTest < Test::Unit::TestCase
   def test_event_none
     e = Seasonal::Event.new(nil, 'America/New_York')
 
-    assert_equal(false, e.going_on?)
+    assert(!e.going_on?)
   end
 
   def test_event_start
@@ -23,7 +23,7 @@ class SeasonalTest < Test::Unit::TestCase
 
     e = Seasonal::Event.new(nil, @zone, :start => ss)
 
-    assert_equal(false, e.going_on?(start - 1))
+    assert(!e.going_on?(start - 1))
     assert(e.going_on?(start))
     assert(e.going_on?(start + 1))
   end
@@ -36,7 +36,7 @@ class SeasonalTest < Test::Unit::TestCase
 
     assert(e.going_on?(ennd - 1))
     assert(e.going_on?(ennd))
-    assert_equal(false, e.going_on?(ennd + 1))
+    assert(!e.going_on?(ennd + 1))
   end
 
   def test_event_start_end
@@ -47,10 +47,10 @@ class SeasonalTest < Test::Unit::TestCase
 
     e = Seasonal::Event.new(nil, @zone, :start => ss, :end => es)
 
-    assert_equal(false, e.going_on?(start - 1))
+    assert(!e.going_on?(start - 1))
     assert(e.going_on?(start))
     assert(e.going_on?(ennd))
-    assert_equal(false, e.going_on?(ennd + 1))
+    assert(!e.going_on?(ennd + 1))
   end
 
   def test_event_start_end_crosses_year_boundary
@@ -61,10 +61,10 @@ class SeasonalTest < Test::Unit::TestCase
 
     e = Seasonal::Event.new(nil, @zone, :start => ss, :end => es)
 
-    assert_equal(false, e.going_on?(start - 1))
+    assert(!e.going_on?(start - 1))
     assert(e.going_on?(start))
     assert(e.going_on?(ennd))
-    assert_equal(false, e.going_on?(ennd + 1))
+    assert(!e.going_on?(ennd + 1))
   end
 
   def test_event_start_end_crosses_year_boundary_other_year
